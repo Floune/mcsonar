@@ -1,6 +1,6 @@
 require('dotenv').config();
 const socket = require('socket.io-client').connect(process.env.SERVER_URL);
-const { Board, Button, Led } = require("johnny-five");
+const { Board, Button, Led, Piezo } = require("johnny-five");
 const board = new Board();
 
 board.on("ready", () => {
@@ -37,7 +37,7 @@ board.on("ready", () => {
 });
 
 const lolilol = () => {
-  var piezo = new five.Piezo(process.env.BUZZER_PIN);
+  var piezo = new Piezo(process.env.BUZZER_PIN);
 
   // Injects the piezo into the repl
   board.repl.inject({
