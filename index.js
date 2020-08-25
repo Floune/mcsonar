@@ -1,12 +1,14 @@
-const socket = require('socket.io-client').connect('http://localhost:8000');
-const five = require("johnny-five")
-const { Board, Led } = require("johnny-five");
+require('dotenv').config();
+const socket = require('socket.io-client').connect(process.env.SERVER_URL);
+const { Board, Button, Led } = require("johnny-five");
 const board = new Board();
 
-board.on("ready", function() {
-  const led = new Led(2)
-  const led2 = new Led(3)
-  button = new five.Button(4);
+board.on("ready", () => {
+  
+  let button = new Button(process.env.BUTTON_PIN);
+  const led = new Led(process.env.LED_1);
+  const led2 = new Led(process.env.LED_2);
+
 
   board.repl.inject({
     button: button,
@@ -16,7 +18,6 @@ board.on("ready", function() {
 
   button.on("down", () => {
     socket.emit('prout')
-    //lolilol()
   })
 
   socket.on("megaprout", () => {
@@ -35,8 +36,8 @@ board.on("ready", function() {
 
 });
 
-function lolilol() {
-  var piezo = new five.Piezo(12);
+const lolilol = () => {
+  var piezo = new five.Piezo(process.env.BUZZER_PIN);
 
   // Injects the piezo into the repl
   board.repl.inject({
