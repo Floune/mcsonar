@@ -1,15 +1,17 @@
 const socket = require('socket.io-client').connect('http://localhost:8000');
-
-
-var five = require("johnny-five"),
-board = new five.Board();
+const five = require("johnny-five")
+const { Board, Led } = require("johnny-five");
+const board = new Board();
 
 board.on("ready", function() {
-  
+  const led = new Led(2)
+  const led2 = new Led(3)
   button = new five.Button(4);
 
   board.repl.inject({
-    button: button
+    button: button,
+    led: led,
+    led2: led2
   });
 
   button.on("down", () => {
@@ -18,7 +20,17 @@ board.on("ready", function() {
   })
 
   socket.on("megaprout", () => {
+    led.blink()
+    led2.blink()
+
     lolilol();
+
+    board.wait(5000, () => {
+      led.stop()
+      led2.stop()
+      led.off()
+      led2.off()
+    })
   })
 
 });
