@@ -1,4 +1,5 @@
-const io = require('socket.io').listen(8000);
+require('dotenv').config()
+const io = require('socket.io').listen(process.env.SERVER_URL);
 
 io.on('connection', (socket) => {
 	socket.on('prout', (data) => {
