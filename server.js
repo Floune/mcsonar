@@ -8,6 +8,7 @@ io.on('connection', (socket) => {
 	console.log('dza')
 	socket.on('prout', (data) => {
 		console.log('michel')
+		socket.broadcast.emit("megaprout")
 	})
 });
 

@@ -5,13 +5,9 @@ var five = require("johnny-five"),
 board = new five.Board();
 
 board.on("ready", function() {
-  // Creates a piezo object and defines the pin to be used for the signal
-  //lolilol()
+  
   button = new five.Button(4);
 
-  // Inject the `button` hardware into
-  // the Repl instance's context;
-  // allows direct command line access
   board.repl.inject({
     button: button
   });
@@ -19,6 +15,10 @@ board.on("ready", function() {
   button.on("down", () => {
     socket.emit('prout')
     //lolilol()
+  })
+
+  socket.on("megaprout", () => {
+    lolilol();
   })
 
 });
