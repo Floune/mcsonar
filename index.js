@@ -1,14 +1,19 @@
 require('dotenv').config();
 const socket = require('socket.io-client').connect(process.env.SERVER_URL);
-const five = require("johnny-five")
+const { Board, Button, Led } = require("johnny-five");
+const board = new Board();
 
-let board = new five.Board();
 board.on("ready", () => {
   
-  let button = new five.Button(process.env.BUTTON_PIN);
+  let button = new Button(process.env.BUTTON_PIN);
+  const led = new Led(process.env.LED_1);
+  const led2 = new Led(process.env.LED_2);
+
 
   board.repl.inject({
-    button: button
+    button: button,
+    led: led,
+    led2: led2
   });
 
   button.on("down", () => {
@@ -16,7 +21,17 @@ board.on("ready", () => {
   })
 
   socket.on("megaprout", () => {
+    led.blink()
+    led2.blink()
+
     lolilol();
+
+    board.wait(5000, () => {
+      led.stop()
+      led2.stop()
+      led.off()
+      led2.off()
+    })
   })
 
 });
